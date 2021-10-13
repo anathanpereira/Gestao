@@ -30,7 +30,7 @@ function App() {
         </Container>
 
         <div style={{ paddingRight: '50px' }}> <input type="search" class="form-control rounded warning" placeholder="Pesquisar" /></div>
-        <div style={{ paddingRight: '50px' }}> <NavLink href="/profile">Perfil</NavLink></div>
+        <div style={{ paddingRight: '50px' }}> <NavLink href="/profile"><img class= "profile"src="./Profile/1.jpg"/></NavLink></div>
       </Navbar >
       </header>
 
