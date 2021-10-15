@@ -1,0 +1,31 @@
+h2 {
+    text-shadow: 2px 2px 2px gray;
+    padding-left: 1%;
+}
+
+
+.img{
+    background-color: rgb(0, 0, 0);
+    margin-left: 1px;
+    border-radius: 5%;
+    
+}
+
+.divisor{
+    border-top: 2px solid rgb(0, 0, 0);
+    shadow: 1;
+}
+
+.poster{
+    padding: 4px;
+    border-radius: 5%;
+}
+
+.text {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
