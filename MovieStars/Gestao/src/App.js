@@ -32,7 +32,7 @@ componentWillMount(){
     
       <Container >
      
-      <img src="./logo.jpeg" style={{ height:'40px'}} ></img>
+      <img src="../logo.jpeg" style={{ height:'40px'}} ></img>
       <div class="vl"></div>
         <Navbar.Brand href="./">
          <b>MovieStars</b>
@@ -48,7 +48,7 @@ componentWillMount(){
         </Container>
 
         <div style={{ paddingRight: '5px' }}> <input type="search" class="form-control rounded warning" placeholder="Pesquisar" /></div>
-        <div style={{ paddingRight: '2% '}}> <NavLink href="/profile"><img class= "profile"src={this.state.apiResponse}/></NavLink></div>
+        <div style={{ paddingRight: '2% '}}> <NavLink href="/profile"><img class= "profile"src={"." + this.state.apiResponse}/></NavLink></div>
       </Navbar >
       </header>
       </div>

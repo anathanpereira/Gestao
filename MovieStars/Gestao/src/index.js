@@ -6,13 +6,14 @@ import Home from './Pages/Home';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import ProfilePage from './Pages/Profile'
 
 ReactDOM.render(
   <BrowserRouter>
     <App />
     <Switch>
       <Route path="/" exact={true} component={Home} />
-      <Route path="/profile" exact={true} />
+      <Route path="/profile/" component={ProfilePage} />
     </Switch>
   </BrowserRouter>
   ,

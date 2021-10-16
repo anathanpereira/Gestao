@@ -1,0 +1,23 @@
+.Profilepage{
+    padding-top: 55px;
+}
+
+.user_profile{
+    padding: 50px;
+    display:flex;
+    align-items: center;
+}
+
+#profile-img{
+    border: 7px solid black;
+    border-radius: 50%;
+    height: 250px;
+    width: 250px;
+}
+
+.Username{
+    text-shadow: 2px 2px 2px gray;
+    margin-left: 20px;
+    float: right;  
+}
+
