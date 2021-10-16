@@ -37,7 +37,7 @@ export default class ProfilePage extends Component {
 				</div>
 
 				<br></br>
-				<DynamicSlides title={"Filmes Favoritos"} param={"new"}></DynamicSlides>
+				<DynamicSlides title={"Filmes Favoritos"} param={"fav"}></DynamicSlides>
 				<br></br>
 
 			</div></>
