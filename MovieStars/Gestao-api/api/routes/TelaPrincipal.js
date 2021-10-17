@@ -5,58 +5,89 @@ var router = express.Router();
 const TAMANHORETORNO = 18;
 
 router.get('/', async function(req, res,next){
-   /*  const { MongoClient } = require("mongodb");
-    const ObjectId = require('mongodb').ObjectId;
-    const uri = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false";
+    const {MongoClient} = require("mongodb");
+    const uri = "mongodb://localhost:27017/";
     const mongoClient = new MongoClient(uri);
-    const db = mongoClient.db("MovieStars"); */
-
-    let param = "new"//req.body;
-    let movies = atualizaGenres(db) //moviesPrincipal(db, param);
-    res.status(200).send(movies);
-    /*if(movies)
-        res.status(200).send(movies);
+    await mongoClient.connect()
+    const db = await mongoClient.db("MovieStars");
+    
+    let param = req.body;
+    let movies = await moviesPrincipal(db, param);
+    
+    if(movies)
+        res.status(200).send(movies); 
     else    
-        res.status(500).end() */
+        res.status(500).end()
 });
 
 async function moviesPrincipal(db, param){
-    
-    let movies = {};
-    if(param == "new"){
-        movies =  await db.collection("movies").find({date:{$lte: new ISODate(new Date().format('YYYY-MM-DD hh:mm:ss'))}}).limit(TAMANHORETORNO).toArray();
-    }else if(param == "fav"){
+    const ObjectId = require('mongodb').ObjectId;
 
+    let movies = [];
+    if(param == "new"){
+        movies =  await db.collection("movies").find().limit(TAMANHORETORNO).toArray();
+    }else if(param == "fav"){
+        userId = new ObjectId("616c8907901549da121dbd9a");
+        user = await db.collection("users").findOne({_id: userId})
+        console.log(user)
+        for(let i =0;i<user.favs.length; i++){
+            fav = (user.favs[i].movieId).toString();
+            movie = await db.collection("movies").findOne({id:fav});
+            
+            movies.push(movie);
+        }
     }else{
-        movies = await db.collection("movies").find({genre:{$in:[35]}}).limit(TAMANHORETORNO).toArray();
-        
+        movies = await db.collection("movies").find({genre:{$in:[param]}}).limit(TAMANHORETORNO).toArray();   
     }
     
     return movies
 }
-const {MongoClient} = require("mongodb");
+/* const {MongoClient} = require("mongodb");
     const ObjectId = require('mongodb').ObjectId;
-    const uri = "mongodb://localhost:27017/?readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false";
+    const uri = "mongodb://localhost:27017/";
     const mongoClient = new MongoClient(uri);
     
-    const db = mongoClient.db("MovieStars");
-
-(async () => {
     
-    
-    await atualizaGenres(db);
 
+ (async () => {
+    await mongoClient.connect()
+    const db = await mongoClient.db("MovieStars");
+    
+    let param = "fav"//req.body;
+    let movies = await moviesPrincipal(db, param);
+    console.log(movies)
     process.exit();
-})();
+})(); */
 
+/* async function soOPresente(db){
+    let ids = await db.collection("movies").find({}, {_id : 1})
+    .limit(194).toArray();
+    for(let i=0;i<ids.length; i++){
+        await db.collection("movies").deleteOne({_id:ids[i]._id});
+    }
+} */
+/*
 async function atualizaGenres(db, param){
     var stringArr;
-    await db.collection("movies").find().forEach(movie => {
-            stringArr = JSON.parse(movie.genre);
-            
+    let movies = await db.collection("movies").find().toArray();
+    
+    for(let i=0; i<movies.length; i++){
+        if(movies[i].genre){
+            genre = movies[i].genre.toString();
+            genre = genre.replace("["," ")
+            genre = genre.replace("]"," ");
+            stringArr = genre.split(",");
+            for(let j =0;j<stringArr.length;j++){
+                stringArr[j] = parseInt(stringArr[j])
+            }
+            await db.collection("movies").updateMany({_id: movies[i]._id}, {$unset: {genre:1}}, false);
             console.log(stringArr)
-    });
-    return stringArr
-}
+            await db.collection("movies").update(
+                {_id: movies[i]._id},
+                {$set: {'genre': stringArr}},
+                false); 
+        }
+    }
+} */
 
 module.exports = router;
