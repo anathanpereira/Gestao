@@ -10,12 +10,29 @@ router.get('/', async function(req, res,next){
     const mongoClient = new MongoClient(uri);
     await mongoClient.connect()
     const db = await mongoClient.db("MovieStars");
-    
+
     let param = req.body;
     let movies = await moviesPrincipal(db, param);
     
     if(movies)
         res.status(200).send(movies); 
+    else    
+        res.status(500).end()
+});
+router.get('/Profile', async function(req, res,next){
+    const {MongoClient} = require("mongodb");
+    const uri = "mongodb://localhost:27017/";
+    const mongoClient = new MongoClient(uri);
+    const ObjectId = require('mongodb').ObjectId;
+    await mongoClient.connect()
+    const db = await mongoClient.db("MovieStars");
+    
+    let param = req.body;
+    let userId = new ObjectId("616c8907901549da121dbd9a");
+    let user = await db.collection("users").findOne({_id: userId})
+    
+    if(user)
+        res.status(200).send(user); 
     else    
         res.status(500).end()
 });
