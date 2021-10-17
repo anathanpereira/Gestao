@@ -7,6 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ProfilePage from './Pages/Profile'
+import LoginPage from './Pages/Login';
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,6 +15,7 @@ ReactDOM.render(
     <Switch>
       <Route path="/" exact={true} component={Home} />
       <Route path="/profile/" component={ProfilePage} />
+      <Route path="/login/" component={LoginPage} />
     </Switch>
   </BrowserRouter>
   ,
