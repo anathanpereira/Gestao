@@ -2,9 +2,13 @@ const { json } = require('express');
 var express = require('express');
 var router = express.Router();
 
+var jsonParser = express.json();
+
 const TAMANHORETORNO = 18;
 
-router.get('/', async function(req, res,next){
+
+
+router.put('/', jsonParser, async function(req, res,next){
     const {MongoClient} = require("mongodb");
     const uri = "mongodb://localhost:27017/";
     const mongoClient = new MongoClient(uri);
@@ -12,10 +16,10 @@ router.get('/', async function(req, res,next){
     const db = await mongoClient.db("MovieStars");
 
     let param = req.body;
-    let movies = await moviesPrincipal(db, param);
+    let movies = await moviesPrincipal(db, param.op);
     
     if(movies)
-        res.status(200).send(movies); 
+        res.status(200).send(JSON.stringify(movies)); 
     else    
         res.status(500).end()
 });
@@ -29,10 +33,10 @@ router.get('/Profile', async function(req, res,next){
     
     let param = req.body;
     let userId = new ObjectId("616c8907901549da121dbd9a");
-    let user = await db.collection("users").findOne({_id: userId})
+    let user = await db.collection("users").findOne({id: 1})
     
     if(user)
-        res.status(200).send(user); 
+        res.status(200).send(JSON.stringify(user)); 
     else    
         res.status(500).end()
 });
@@ -44,8 +48,8 @@ async function moviesPrincipal(db, param){
     if(param == "new"){
         movies =  await db.collection("movies").find().limit(TAMANHORETORNO).toArray();
     }else if(param == "fav"){
-        userId = new ObjectId("616c8907901549da121dbd9a");
-        user = await db.collection("users").findOne({_id: userId})
+
+        user = await db.collection("users").findOne({id: 1})
         console.log(user)
         for(let i =0;i<user.favs.length; i++){
             fav = (user.favs[i].movieId).toString();
@@ -59,31 +63,31 @@ async function moviesPrincipal(db, param){
     
     return movies
 }
-/* const {MongoClient} = require("mongodb");
+ const {MongoClient} = require("mongodb");
     const ObjectId = require('mongodb').ObjectId;
     const uri = "mongodb://localhost:27017/";
     const mongoClient = new MongoClient(uri);
     
     
 
- (async () => {
+ /*(async () => {
     await mongoClient.connect()
     const db = await mongoClient.db("MovieStars");
     
     let param = "fav"//req.body;
-    let movies = await moviesPrincipal(db, param);
+    let movies = await soOPresente(db);
     console.log(movies)
     process.exit();
 })(); */
 
-/* async function soOPresente(db){
+async function soOPresente(db){
     let ids = await db.collection("movies").find({}, {_id : 1})
     .limit(194).toArray();
     for(let i=0;i<ids.length; i++){
         await db.collection("movies").deleteOne({_id:ids[i]._id});
     }
-} */
-/*
+} 
+
 async function atualizaGenres(db, param){
     var stringArr;
     let movies = await db.collection("movies").find().toArray();
@@ -105,6 +109,6 @@ async function atualizaGenres(db, param){
                 false); 
         }
     }
-} */
+} 
 
 module.exports = router;

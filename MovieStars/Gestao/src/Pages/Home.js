@@ -19,7 +19,7 @@
             <DynamicSlides title = {"Recentes"} param = {"new"}></DynamicSlides>
             <br></br>
 
-            <DynamicSlides title = {"Ação"} param = {28}></DynamicSlides>
+            <DynamicSlides title = {"Ação"} param = {28} ></DynamicSlides>
 
             <br></br>
             <DynamicSlides title = {"Drama"} param = {18}></DynamicSlides>
@@ -37,7 +37,7 @@
             <DynamicSlides title = {"Animação"} param = {16}></DynamicSlides>
 
             <br></br>
-            <DynamicSlides title = {"Documentário"} param = {35}></DynamicSlides>
+            <DynamicSlides title = {"Documentário"} param = {99}></DynamicSlides>
             </div>
       );
       }

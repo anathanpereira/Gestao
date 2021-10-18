@@ -4,20 +4,34 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Container } from "react-bootstrap";
 import './Slider.css'
-
+import axios from 'axios';
+import Stars from './Star'
 export default class DynamicSlides extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      slides: ['./Movies/871812.jpg','./Movies/870932.jpg', './Movies/866127.jpg', './Movies/866408.jpg', './Movies/869149.jpg', './Movies/869617.jpg', './Movies/869250.jpg']
+      slides: [],
     };
     this.click = this.click.bind(this);
   }
+  callAPI() {
+		axios.put("http://localhost:9000/telaPrincipal", {op : this.props.param}).then(res => {
+      const movies = res.data;
+      this.setState({slides: movies});
+    })
+
+	}
+
+	componentWillMount() {
+		this.callAPI();
+	}
+
+
   click() {
     const { slides } = this.state;
     this.setState({
       slides:
-        slides.length === 9 ? [1, 2, 3, 4, 5, 6, 7, 8, 9] : [1, 2, 3, 4, 5, 6]
+        slides.length === 18 ? [1, 2, 3, 4, 5, 6, 7, 8, 9] : [1, 2, 3, 4, 5, 6]
     });
   }
   render() {
@@ -25,9 +39,13 @@ export default class DynamicSlides extends Component {
       dots: true,
       infinite: true,
       speed: 500,
-      slidesToShow: 6,
-      slidesToScroll: 4 
+      slidesToShow: 5,
+      slidesToScroll: 5
     };
+
+    let op = this.props.stars;
+   
+
     return (
       <div>
          
@@ -40,8 +58,9 @@ export default class DynamicSlides extends Component {
                 <div key={slide} align="center" >
                   <div class="img">
                       
-                      <img src={slide} class="poster" />
-                      
+                      <img src={slide.img} class="poster" />
+                      <b>{slide.title}</b><br />
+                      <Stars stars={op}></Stars>
                   </div>
                 </div>
               </div>

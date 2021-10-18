@@ -12,17 +12,18 @@ import Connection from '../API/connect';
 export default class ProfilePage extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { apiResponse: "" };
+		this.state = { apiResponse: {} };
 	}
 	callAPI() {
-		fetch("http://localhost:9000/testAPI")
+		fetch("http://localhost:9000/telaPrincipal/Profile")
 			.then(res => res.text())
-			.then(res => this.setState({ apiResponse: res }));
+			.then(res => this.setState({ apiResponse: JSON.parse(res) }));
 
 	}
 
 	componentWillMount() {
 		this.callAPI();
+		
 	}
 
 	render() {
@@ -31,13 +32,13 @@ export default class ProfilePage extends Component {
 			<><div className="Profilepage">
 				<div className="user_profile">
 					<div className="img-holder">
-						<img src={"." + this.state.apiResponse} alt="" id="profile-img" className="img" />
+						<img src={"." + this.state.apiResponse.img} alt="" id="profile-img" className="img" />
 					</div>
-					<h1 className="Username">Robert Downey Jr.</h1>
+					<h1 className="Username">{this.state.apiResponse.name}</h1>
 				</div>
 
 				<br></br>
-				<DynamicSlides title={"Filmes Favoritos"} param={"fav"}></DynamicSlides>
+				<DynamicSlides title={"Filmes Favoritos"} param={"fav"} stars={true}></DynamicSlides>
 				<br></br>
 
 			</div></>

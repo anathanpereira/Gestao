@@ -8,12 +8,12 @@ import Homepage from'./Pages/Home.js'
 export default class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {apiResponse:""};
+    this.state = {apiResponse:{}};
 }
 callAPI(){
-    fetch("http://localhost:9000/testAPI")
+    fetch("http://localhost:9000/telaPrincipal/Profile")
     .then(res => res.text())
-    .then(res => this.setState({apiResponse: res}));
+    .then(res => this.setState({apiResponse: JSON.parse(res)}));
 
 }
 
@@ -48,7 +48,7 @@ componentWillMount(){
         </Container>
 
         <div style={{ paddingRight: '5px' }}> <input type="search" class="form-control rounded warning" placeholder="Pesquisar" /></div>
-        <div style={{ paddingRight: '2% '}}> <NavLink href="/profile"><img class= "profile"src={"." + this.state.apiResponse}/></NavLink></div>
+        <div style={{ paddingRight: '2% '}}> <NavLink href="/profile"><img class= "profile"src={"."+ this.state.apiResponse.img}/></NavLink></div>
       </Navbar >
       </header>
       </div>
